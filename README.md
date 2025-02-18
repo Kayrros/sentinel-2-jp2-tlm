@@ -19,7 +19,7 @@ Exact timings varies depending on the internet connection, but cropping a file w
 Enabling this option would make CDSE quotas for General Users more adequate, as well as reduce the load for CDSE infrastructure, including OpenEO.
 
 
-The shell script `benchmark.sh` provides a reproducible experiment that compares the reading times of a Sentinel-2 image chunk with and without TLM markers (from product `S2B_MSIL2A_20241115T100159_N0511_R122_T32TQM_20241115T125542`):
+The shell script [benchmark.sh](./benchmark.sh) provides a reproducible experiment that compares the reading times of a Sentinel-2 image chunk with and without TLM markers (from product `S2B_MSIL2A_20241115T100159_N0511_R122_T32TQM_20241115T125542`):
 
 ```bash
 bash benchmark.sh
