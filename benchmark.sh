@@ -47,7 +47,7 @@ run() {
     # - bandwidth used: ~3MB
     # - number of requests: 110
     echo Number of requests:
-    time bash -c "gdal_translate -srcwin 9500 9500 500 500 $baseurl/T32TQM_20241115T100159_B03_10m.jp2 crop1.tif 2>&1 | grep '^Range: bytes=' | wc -l"
+    time bash -c "gdal_translate -srcwin 9500 9500 500 500 $baseurl/T32TQM_20241115T100159_B03_10m.jp2 crop1.tif 2>&1 | grep -i '^Range: bytes=' | wc -l"
 
     echo -e "\nJP2 with TLM"
     echo -e "============\n"
@@ -55,7 +55,7 @@ run() {
     # - bandwidth used: ~1MB
     # - number of requests: 3
     echo Number of requests:
-    time bash -c "gdal_translate -srcwin 9500 9500 500 500 $baseurl/T32TQM_20241115T100159_B03_10m_with_TLM.jp2 crop2.tif 2>&1 | grep '^Range: bytes=' | wc -l"
+    time bash -c "gdal_translate -srcwin 9500 9500 500 500 $baseurl/T32TQM_20241115T100159_B03_10m_with_TLM.jp2 crop2.tif 2>&1 | grep -i '^Range: bytes=' | wc -l"
 
     echo -e "\nCOG"
     echo -e "===\n"
@@ -63,7 +63,7 @@ run() {
     # - bandwidth used: ~1.5MB
     # - number of requests: 2
     echo Number of requests:
-    time bash -c "gdal_translate -srcwin 9500 9500 500 500 $baseurl/T32TQM_20241115T100159_B03_10m.tiff crop3.tif 2>&1 | grep '^Range: bytes=' | wc -l"
+    time bash -c "gdal_translate -srcwin 9500 9500 500 500 $baseurl/T32TQM_20241115T100159_B03_10m.tiff crop3.tif 2>&1 | grep -i '^Range: bytes=' | wc -l"
 
     # crops from JP2 with and without TLM are strictly the same
     diff crop1.tif crop2.tif
