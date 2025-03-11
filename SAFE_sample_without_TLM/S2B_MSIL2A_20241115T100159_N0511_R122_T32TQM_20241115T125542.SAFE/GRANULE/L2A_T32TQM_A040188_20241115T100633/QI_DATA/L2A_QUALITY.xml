@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<L2A_Quality_File xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://gs2.esa.int/DATA_STRUCTURE/l2aqiReport" xsi:schemaLocation="http://gs2.esa.int/DATA_STRUCTURE/l2aqiReport L2A_QUALITY.xsd">
+  <L2A_Quality_Header>
+    <Fixed_Header>
+      <File_Name>L2A_QUALITY</File_Name>
+      <File_Description>Quality information obtained from Sen2Cor</File_Description>
+      <Notes/>
+      <Mission>S2B</Mission>
+      <!-- This can be set to OPER or USER dependent on PDGS or Toolbox mode -->
+      <File_Class>OPER</File_Class>
+      <File_Type>L2A_QLINFO</File_Type>
+      <Validity_Period>
+        <Validity_Start>UTC=2015-06-22T00:00:00</Validity_Start>
+        <Validity_Stop>UTC=2100-01-01T00:00:00</Validity_Stop>
+      </Validity_Period>
+      <File_Version>1</File_Version>
+      <Source>
+        <System>Sen2Cor</System>
+        <Creator>Sen2Cor</Creator>
+        <Creator_Version>2.10</Creator_Version>
+        <Creation_Date>UTC=2024-11-15T13:44:15</Creation_Date>
+      </Source>
+    </Fixed_Header>
+  </L2A_Quality_Header>
+  <Data_Block type="xml">
+    <report gippVersion="02.12.02" globalStatus="PASSED" date="2024-08-02T00:00:00Z">
+      <checkList>
+        <parentID>L2A_SC</parentID>
+        <name>SCENE_CLASS_QUALITY</name>
+        <version>2.10</version>
+        <item class="http://www.esa.int/s2#pdi_level_2a_tile_container" className="PDI Level 2A Tile Folder" name="S2B_OPER_MSI_L2A_TL_2BPS_20241115T125542_A040188_T32TQM_N05.11" url="/mnt/local/l2ads/work/ff84f58a-5e1f-417f-963f-99667d0c30b7/work/tmp_l2_tl_20241115132241/TL/S2B_OPER_MSI_L1C_TL_2BPS_20241115T120232_A040188_T32TQM_N05.11/GRANULE/S2B_OPER_MSI_L2A_TL_2BPS_20241115T125542_A040188_T32TQM_N05.11/AUX_DATA"/>
+        <check>
+          <message contentType="text/plain">"Percentage of classified pixels"</message>
+          <extraValues>
+            <value name="CLOUDY_PIXEL_PERCENTAGE">0.324627</value>
+            <value name="CLOUDY_PIXEL_OVER_LAND_PERCENTAGE">0.628178</value>
+            <value name="DEGRADED_MSI_DATA_PERCENTAGE">0.021300</value>
+            <value name="NODATA_PIXEL_PERCENTAGE">0.000000</value>
+            <value name="SATURATED_DEFECTIVE_PIXEL_PERCENTAGE">0.000000</value>
+            <value name="CAST_SHADOW_PERCENTAGE">0.370878</value>
+            <value name="CLOUD_SHADOW_PERCENTAGE">0.002810</value>
+            <value name="VEGETATION_PERCENTAGE">37.613723</value>
+            <value name="NOT_VEGETATED_PERCENTAGE">10.895047</value>
+            <value name="WATER_PERCENTAGE">50.790644</value>
+            <value name="UNCLASSIFIED_PERCENTAGE">0.001948</value>
+            <value name="MEDIUM_PROBA_CLOUDS_PERCENTAGE">0.015989</value>
+            <value name="HIGH_PROBA_CLOUDS_PERCENTAGE">0.002276</value>
+            <value name="THIN_CIRRUS_PERCENTAGE">0.306363</value>
+            <value name="SNOW_ICE_PERCENTAGE">0.000325</value>
+          </extraValues>
+        </check>
+      </checkList>
+      <checkList>
+        <parentID>L2A_AC</parentID>
+        <name>ATMOSPHERIC_CORRECTION_QUALITY</name>
+        <version>2.10</version>
+        <item class="http://www.esa.int/s2#pdi_level_2a_tile_container" className="PDI Level 2A Tile Folder" name="S2B_OPER_MSI_L2A_TL_2BPS_20241115T125542_A040188_T32TQM_N05.11" url="/mnt/local/l2ads/work/ff84f58a-5e1f-417f-963f-99667d0c30b7/work/tmp_l2_tl_20241115132241/TL/S2B_OPER_MSI_L1C_TL_2BPS_20241115T120232_A040188_T32TQM_N05.11/GRANULE/S2B_OPER_MSI_L2A_TL_2BPS_20241115T125542_A040188_T32TQM_N05.11/AUX_DATA"/>
+        <check>
+          <message contentType="text/plain">Atmospheric correction quality values</message>
+          <extraValues>
+            <value name="AOT_RETRIEVAL_ACCURACY">0.000000</value>
+            <value name="GRANULE_MEAN_AOT">0.083137</value>
+            <value name="WV_RETRIEVAL_ACCURACY">0.000000</value>
+            <value name="GRANULE_MEAN_WV">0.893990</value>
+            <value name="OZONE_VALUE">296.662689</value>
+            <value name="START_VISIBILITY_KM">40.000000</value>
+            <value name="VISIBILITY_FROM_DDV_KM">111.670000</value>
+            <value name="FINAL_VISIBILITY_KM">111.670000</value>
+            <value name="AVERAGE_SOLAR_ZENITH_ANGLE">61.552425</value>
+            <value name="DDV_PIXEL_PERCENTAGE">4.969171</value>
+            <value name="DDV_REFLECTANCE_RANGE">0.050000</value>
+            <value name="BLUE_PATH_RADIANCE_RESCALING_FACTOR">1.000000</value>
+          </extraValues>
+        </check>
+        <check>
+          <message contentType="text/plain">Atmospheric correction quality control</message>
+          <extraValues>
+            <value name="AC_ENABLED">True</value>
+            <!-- WV_RETRIEVAL_METHOD: SEN2COR_APDA | NA -->
+            <value name="WV_RETRIEVAL_METHOD">SEN2COR_APDA</value>
+            <!-- AOT_RETRIEVAL_METHOD: SEN2COR_DDV | CAMS | DEFAULT | NA-->
+            <value name="AOT_RETRIEVAL_METHOD">SEN2COR_DDV</value>
+            <value name="VISIBILITY_LESS_THAN_5_KM">False</value>
+            <value name="AOT_ABOVE_1">False</value>
+            <value name="GRANULE_WV_ABOVE_5_CM">False</value>
+          </extraValues>
+        </check>
+        <check>
+          <message contentType="text/plain">Percentage of negative BOA pixels</message>
+          <extraValues>
+            <value name="B01">0.023583</value>
+            <value name="B02">0.026821</value>
+            <value name="B03">0.015372</value>
+            <value name="B04">0.210975</value>
+            <value name="B05">0.103470</value>
+            <value name="B06">0.203619</value>
+            <value name="B07">0.009161</value>
+            <value name="B08">0.089356</value>
+            <value name="B8A">0.157431</value>
+            <value name="B11">0.004376</value>
+            <value name="B12">0.000000</value>
+          </extraValues>
+        </check>
+        <check>
+          <message contentType="text/plain">Look up table file list</message>
+          <extraValues>
+            <value name="LUT_DATA_FILES">['g99000_wv20_rura.atm']</value>
+          </extraValues>
+        </check>
+      </checkList>
+      <checkList>
+        <parentID>L2A_AUX</parentID>
+        <name>AUX_DATA_QUALITY</name>
+        <version>2.10</version>
+        <item class="http://www.esa.int/s2#pdi_level_2a_tile_container" className="PDI Level 2A Tile Folder" name="S2B_OPER_MSI_L2A_TL_2BPS_20241115T125542_A040188_T32TQM_N05.11" url="/mnt/local/l2ads/work/ff84f58a-5e1f-417f-963f-99667d0c30b7/work/tmp_l2_tl_20241115132241/TL/S2B_OPER_MSI_L1C_TL_2BPS_20241115T120232_A040188_T32TQM_N05.11/GRANULE/S2B_OPER_MSI_L2A_TL_2BPS_20241115T125542_A040188_T32TQM_N05.11/AUX_DATA"/>
+        <check>
+          <message contentType="text/plain">AUX related parameters</message>
+          <extraValues>
+            <!-- DEM_TYPE: SRTM_90 | DTED_90 | DTED_30 | (PRISM-AWS) COPERNICUS_90 | (PRISM-AWS) COPERNICUS_30 -->
+            <value name="DEM_TYPE">DTED_30</value>
+            <value name="DEM_MEAN_ALTITUDE_KM">0.16812564</value>
+            <value name="DEM_MEAN_SLOPE">6.6466036</value>
+            <value name="GROUND_ELEVATION_ABOVE_3_KM">False</value>
+            <value name="SOLAR_ZENITH_ANGLE_ABOVE_70_DEG">False</value>
+            <!-- OZONE_SOURCE: AUX_ECMWFT | CONFIG | OTHER -->
+            <value name="OZONE_SOURCE">AUX_ECMWFT</value>
+          </extraValues>
+        </check>
+        <check>
+          <message contentType="text/plain">AUX data file list</message>
+          <extraValues>
+            <value name="AUX_DATA_FILES">['e010_n42.dt2', 'e011_n41.dt2', 'e011_n42.dt2', 'e012_n40.dt2', 'e012_n41.dt2', 'e012_n42.dt2', 'e013_n40.dt2', 'e013_n41.dt2', 'e013_n42.dt2']</value>
+          </extraValues>
+        </check>
+      </checkList>
+    </report>
+  </Data_Block>
+</L2A_Quality_File>
