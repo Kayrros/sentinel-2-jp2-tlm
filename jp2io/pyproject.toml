@@ -1,0 +1,65 @@
+[project]
+name = "jp2io"
+version = "1.0.0"
+description = "Inject pre-indexed TLMs into JPEG2000 for efficient remote cropping"
+license = "Apache-2.0"
+license-files = [ "LICENSE" ]
+readme = "README.md"
+authors = [
+    { name = "Kayrros", email = "" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "boto3>=1.30.0",
+    "numpy>=2.0.0",
+    "pyarrow>=19.0.0",
+    "rasterio>=1.4.0",
+    "typing-extensions>=4.12.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+packages = ["src/jp2io"]
+
+[dependency-groups]
+dev = [
+    "fire>=0.7.0",
+    "mypy>=1.15.0",
+    "numpy>=2.2.3",
+    "pytest>=8.3.5",
+    "ruff>=0.9.9",
+]
+
+[project.scripts]
+jp2io-update-openjpeg = "jp2io.rasterio_setup_openjpeg:setup_openjpeg"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    # defaults
+    "F",
+    "E",
+    # sort
+    "I001",
+]
+
+[tool.mypy]
+strict = true
+allow_redefinition = true
+pretty = true
+python_version = "3.10"
+
+[[tool.mypy.overrides]]
+module = [
+    "rasterio.*",
+    "pyarrow.*",
+    "boto3",
+    "fire",
+]
+ignore_missing_imports = true
