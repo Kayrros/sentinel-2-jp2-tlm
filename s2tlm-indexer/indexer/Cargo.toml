@@ -1,0 +1,12 @@
+[package]
+name = "indexer"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.95"
+log = "0.4.25"
+opendal = "0.52.0"
+roxmltree = "0.20.0"
+serde = { version = "1.0.217", features = ["derive"] }
+serde-roxmltree = { version = "0.9.1", features = ["raw-node"] }
