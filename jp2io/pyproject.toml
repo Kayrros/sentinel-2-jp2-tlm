@@ -24,6 +24,19 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.sdist]
 packages = ["src/jp2io"]
 
+[project.optional-dependencies]
+zarr = [
+    "fire>=0.7.0",
+    "xarray>=2025.3.1",
+    "imagecodecs>=2025.3.30",
+    "virtualizarr>=1.3.2",
+    "zarr>=3.0.7",
+    "obstore>=0.6.0",
+    "fsspec[s3]>=2025.3.2",
+    "kerchunk>=0.2.8",
+    "s3fs>=2025.0.0",
+]
+
 [dependency-groups]
 dev = [
     "fire>=0.7.0",
@@ -35,6 +48,18 @@ dev = [
 
 [project.scripts]
 jp2io-update-openjpeg = "jp2io.rasterio_setup_openjpeg:setup_openjpeg"
+jp2io-make-virtual-cube = "jp2io.zarr.virtualizarr:cli_export_to_kerchunk"
+
+[project.entry-points."zarr.codecs"]  # untested
+"jp2io.zarr.Sentinel2Jpeg2000Codec" = "jp2io.zarr.codec:Sentinel2Jpeg2000Codec"
+
+[tool.uv.workspace]
+members = [
+    "zarr-demo",
+]
+
+[tool.uv.sources]
+virtualizarr = { git = "https://github.com/zarr-developers/VirtualiZarr" }
 
 [tool.ruff]
 line-length = 120

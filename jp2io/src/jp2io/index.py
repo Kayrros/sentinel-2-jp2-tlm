@@ -69,6 +69,16 @@ class TLMIndex(abc.ABC):
         )
 
 
+class UnsupportedJP2Exception(Exception):
+    pass
+
+
+@dataclass(frozen=True)
+class TilesRange:
+    tiles_position: list[int]
+    tiles_length: list[int]
+
+
 @dataclass(frozen=True)
 class VirtualTLMIndex(TLMIndex):
     file_size: int
@@ -162,6 +172,80 @@ class VirtualTLMIndex(TLMIndex):
             _children=[jp2_mem, tlm_mem],
             _content=content,
         )
+
+    def into_tiles_range(self) -> TilesRange:
+        """
+        See https://web.archive.org/web/20250209200219/https://ics.uci.edu/~dhirschb/class/267/papers/jpeg2000.pdf
+        """
+        tlm_marker = self.tlm_segment
+
+        tlm, ltlm, ztlm, stlm = struct.unpack_from(">HHBB", tlm_marker)
+        if tlm != 0xFF55:
+            # if the TLM index is not valid
+            raise UnsupportedJP2Exception()
+        if ltlm != len(tlm_marker) - 2:
+            # if the TLM index is not valid
+            raise UnsupportedJP2Exception()
+        if ztlm != 0:
+            raise UnsupportedJP2Exception()
+
+        if stlm & 0b00_11_0000 == 0b00_00_0000:
+            ttlm_size = 0
+        elif stlm & 0b00_11_0000 == 0b00_01_0000:
+            ttlm_size = 8
+        elif stlm & 0b00_11_0000 == 0b00_10_0000:
+            ttlm_size = 16
+        else:
+            # not possible according to the spec
+            raise UnsupportedJP2Exception()
+
+        if stlm & 0b01000000 != 0:
+            ptlm_size = 32
+        else:
+            ptlm_size = 16
+
+        tiles_position = []
+        tiles_length = []
+        tile_index = 0
+        cumulative_position = self.position_first_sot
+
+        offset = 6
+        while offset < len(tlm_marker):
+            if ttlm_size == 0:
+                ttlm = tile_index
+            elif ttlm_size == 8:
+                ttlm = struct.unpack_from(">B", tlm_marker, offset)[0]
+                offset += 1
+            elif ttlm_size == 16:
+                ttlm = struct.unpack_from(">H", tlm_marker, offset)[0]
+                offset += 2
+            else:
+                # not possible according to the spec
+                raise UnsupportedJP2Exception()
+
+            # assuming sorted tiles
+            if ttlm != tile_index:
+                raise UnsupportedJP2Exception()
+
+            if ptlm_size == 0:
+                ptlm = 0
+            elif ptlm_size == 16:
+                ptlm = struct.unpack_from(">H", tlm_marker, offset)[0]
+                offset += 2
+            elif ptlm_size == 32:
+                ptlm = struct.unpack_from(">I", tlm_marker, offset)[0]
+                offset += 4
+            else:
+                # not possible according to the spec
+                raise UnsupportedJP2Exception()
+
+            tiles_position.append(+cumulative_position)
+            tiles_length.append(ptlm)
+
+            cumulative_position += ptlm
+            tile_index += 1
+
+        return TilesRange(tiles_position, tiles_length)
 
 
 @dataclass(frozen=True)
