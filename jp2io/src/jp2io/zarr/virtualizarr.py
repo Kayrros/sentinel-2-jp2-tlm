@@ -127,9 +127,15 @@ def main_export_to_kerchunk(tlm_index_path: str, output_path: str):
     datacube = Sentinel2Datacube(store_registry=store_registry, tlm_provider=tlm_provider)
 
     ds = datacube.open_all()
-    kerchunk = ds.virtualize.to_kerchunk(format="dict")
-    with open(output_path, "w") as f:
-        json.dump(kerchunk, f, indent=2)
+
+    if output_path.endswith(".json"):
+        kerchunk = ds.virtualize.to_kerchunk(format="json")
+        with open(output_path, "w") as f:
+            json.dump(kerchunk, f, indent=2)
+    elif output_path.endswith(".kerchunk"):
+        ds.virtualize.to_kerchunk(output_path, format="parquet")
+    else:
+        raise ValueError("unsupported output path extension (use .json or .kerchunk")
 
     print("dataset exported as kerchunk to", output_path)
 
