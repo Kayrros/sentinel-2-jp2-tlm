@@ -29,6 +29,7 @@ def make_manifest_group(path: str, ranges: TilesRange, group_name: str = "data")
         lengths=tile_lengths,
         validate_paths=False,
     )
+
     arraymetadata = create_v3_array_metadata(
         shape=(10980, 10980),
         data_type=np.dtype(np.uint16),
@@ -134,6 +135,25 @@ def main_export_to_kerchunk(tlm_index_path: str, output_path: str):
             json.dump(kerchunk, f, indent=2)
     elif output_path.endswith(".kerchunk"):
         ds.virtualize.to_kerchunk(output_path, format="parquet")
+    elif output_path.endswith(".icechunk"):
+        import icechunk
+
+        storage = icechunk.local_filesystem_storage(output_path)
+        config = icechunk.RepositoryConfig.default()
+        config.set_virtual_chunk_container(
+            icechunk.VirtualChunkContainer("s3", "s3://", icechunk.s3_store(endpoint_url=store.config["endpoint"]))
+        )
+        credentials = icechunk.containers_credentials(
+            s3=icechunk.s3_credentials(
+                access_key_id=os.environ["CDSE_ACCESS_KEY_ID"],
+                secret_access_key=os.environ["CDSE_SECRET_ACCESS_KEY"],
+            )
+        )
+
+        repo = icechunk.Repository.create(storage, config, credentials)
+        session = repo.writable_session("main")
+        ds.virtualize.to_icechunk(session.store)
+        session.commit("init")
     else:
         raise ValueError("unsupported output path extension (use .json or .kerchunk")
 

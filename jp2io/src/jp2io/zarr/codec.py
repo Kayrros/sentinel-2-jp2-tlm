@@ -10,7 +10,7 @@ import numcodecs.abc
 import numcodecs.registry
 import numpy as np
 from typing_extensions import override
-from zarr.abc.codec import ArrayArrayCodec
+from zarr.abc.codec import BytesBytesCodec
 from zarr.core.array_spec import ArraySpec
 from zarr.core.buffer import Buffer, NDBuffer
 
@@ -99,12 +99,17 @@ def build_sentinel2_jp2_codestream(tile_data: bytes, tile_size: int, raster_size
     return codestream
 
 
-def _decode_jp2_tile(chunk_data: Buffer, chunk_spec: ArraySpec) -> NDBuffer:
+def _decode_jp2_tile(chunk_data: Buffer, chunk_spec: ArraySpec) -> Buffer:
     codestream = build_sentinel2_jp2_codestream(
         chunk_data.to_bytes(), tile_size=1024, raster_size_x=10980, raster_size_y=10980
     )
     array = imagecodecs.jpeg2k_decode(codestream)
-    return chunk_spec.prototype.nd_buffer.from_numpy_array(array)
+
+    # needed because a BytesCodec will take care of decoding to uint16
+    array = array.view(np.uint8)
+    array = array.ravel()
+
+    return chunk_spec.prototype.buffer.from_array_like(array)
 
 
 def _decode_jp2_tile_npy(chunk_data: np.ndarray) -> np.ndarray:
@@ -150,7 +155,7 @@ class Sentinel2Jpeg2000NumCodec(numcodecs.abc.Codec):
 
 
 @dataclass(frozen=True)
-class Sentinel2Jpeg2000Codec(ArrayArrayCodec):
+class Sentinel2Jpeg2000Codec(BytesBytesCodec):
     """
     Warning: this codec only supports 10m bands of Sentinel-2 right now.
     """
