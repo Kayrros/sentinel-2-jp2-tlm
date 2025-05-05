@@ -41,7 +41,7 @@ According to the [Kakadu usage examples](https://kakadusoftware.com/wp-content/u
 
 ### SAFE sample
 
-The folders `./SAFE_sample_without_TLM/` and `./SAFE_sample_with_TLM/` contain a Sentinel-2 product (`S2B_MSIL2A_20241115T100159_N0511_R122_T32TQM_20241115T125542`) in SAFE format. Only the JP2 files were updated, not the XML.
+The archives [SAFE_sample_without_TLM.zip](https://github.com/Kayrros/sentinel-2-jp2-tlm/releases/download/safe-samples/SAFE_sample_without_TLM.zip) and [SAFE_sample_with_TLM.zip](https://github.com/Kayrros/sentinel-2-jp2-tlm/releases/download/safe-samples/SAFE_sample_with_TLM.zip) contain a Sentinel-2 product (`S2B_MSIL2A_20241115T100159_N0511_R122_T32TQM_20241115T125542`) in SAFE format. Only the JP2 files were updated, not the XML.
 Both were tested on SNAP 11.0.1, QGIS 3.40.1 and GDAL 3.10.2 without issues.
 
 
