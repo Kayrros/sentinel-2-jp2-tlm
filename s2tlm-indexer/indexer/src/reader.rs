@@ -7,17 +7,19 @@ pub struct CachedReader {
     length: usize,
     last: Vec<u8>,
     last_offset: usize,
+    read_ahead: usize,
 }
 
 impl CachedReader {
-    pub async fn from(reader: Reader, length: usize) -> std::io::Result<Self> {
-        let end = 4096.min(length) as u64;
+    pub async fn from(reader: Reader, length: usize, initial_read: usize) -> std::io::Result<Self> {
+        let end = initial_read.min(length) as u64;
         let start = reader.read(0..end).await?.to_vec();
         Ok(CachedReader {
             reader,
             length,
             last: start,
             last_offset: 0,
+            read_ahead: 128,
         })
     }
 
@@ -28,7 +30,8 @@ impl CachedReader {
             let range = (range.start - self.last_offset)..(range.end - self.last_offset);
             &self.last[range]
         } else {
-            let end = (range.end + 128_usize.saturating_sub(range.len())).min(self.length) as _;
+            let end =
+                (range.end + self.read_ahead.saturating_sub(range.len())).min(self.length) as _;
             let r = (range.start as u64)..end;
             log::debug!("{:?}", &r);
             let bytes = self.reader.read(r).await?.to_vec();

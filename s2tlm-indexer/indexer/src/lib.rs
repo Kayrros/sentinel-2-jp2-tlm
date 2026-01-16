@@ -7,6 +7,8 @@ use reader::CachedReader;
 pub mod manifest;
 mod reader;
 
+const SMALL_FILE_BYTES_THRESHOLD: usize = 5_000_000;
+
 /// JPEG 2000 signature box
 const JP2_JP: u32 = 0x6a502020;
 /// Contiguous codestream box
@@ -175,7 +177,7 @@ fn generate_tlmindex(file_metadata: &JP2FileMetadata, mut tile_entries: Vec<SOTM
         (stlm, per_tile_length)
     };
 
-    log::debug!("ST={} SP={}", ST, SP);
+    log::debug!("ST={ST} SP={SP}");
 
     let header_segment_length = 2 /* Ltlm */ + 1 /* Ztlm */ + 1 /* Stlm */;
     let segment_length = header_segment_length + tile_entries.len() * per_tile_length;
@@ -218,7 +220,14 @@ fn generate_tlmindex(file_metadata: &JP2FileMetadata, mut tile_entries: Vec<SOTM
 }
 
 pub async fn make_index(reader: Reader, length: usize) -> anyhow::Result<Vec<u8>> {
-    let mut reader = CachedReader::from(reader, length).await?;
+    // if the file is small, read everything once instead of making a lot of reads
+    let initial_read = if length < SMALL_FILE_BYTES_THRESHOLD {
+        length
+    } else {
+        4096 // the header is typically ~2600 bytes
+    };
+
+    let mut reader = CachedReader::from(reader, length, initial_read).await?;
 
     let mut cur = 0;
     let mut jbox = BoxHeader::read(&mut reader, &mut cur).await?;
