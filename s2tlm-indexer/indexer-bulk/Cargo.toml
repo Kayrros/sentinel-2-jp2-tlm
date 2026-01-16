@@ -1,0 +1,17 @@
+[package]
+name = "indexer-bulk"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tokio = { version = "1.33.0", features = ["macros", "rt-multi-thread"] }
+pretty_env_logger = "0.5.0"
+opendal = { version = "0.53.0", features = ["services-s3", "executors-tokio"] }
+log = "0.4.22"
+anyhow = "1.0.94"
+indexer = { path = "../indexer" }
+clap = { version = "4.5.27", features = ["derive", "env"] }
+parquet = { version = "56.0.0", features = ["async"] }
+parquet_derive = "56.0.0"
+async-channel = "2.3.1"
+governor = "0.10.0"
